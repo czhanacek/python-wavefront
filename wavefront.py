@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import time
-import heapq
 import sys
        
 def newSearch(mapOfWorld, goal, start):
