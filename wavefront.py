@@ -56,10 +56,11 @@ class Map(object):
             for y in range(self.ydim):
                 printf("%3s", str(self.positions[(x, y)]))
             print
+    # Navigate though the number-populated maze
     def nav(self, start, current):
         self.pos = start
-        
         finished = False
+        
         while(finished == False): # Run this code until we're at the goal
             x, y = self.pos
             self.positions[self.pos] = 'R' # Set the start on the map (this USUALLY keeps start the same)
@@ -75,12 +76,15 @@ class Map(object):
             for w in range(len(moves)):
                 move = moves[w]
                 
+                # If the position has the current wave - 1 in it, move there.
                 if(self.positions[move] == current - 1):
                     self.least = self.positions[move]
                     leastIndex = w
+                # Or, if the position is the goal, stop the loop
                 elif(self.positions[move] == 'G'):
                     finished = True
                     leastIndex = w
+            # Decrement the current number so we can look for the next number
             current = current - 1
             self.positions[self.pos] = ' '
             print "Moved " + moveDirections[leastIndex]
@@ -88,15 +92,17 @@ class Map(object):
             
             time.sleep(0.25)
             self.display()
+        # Change the goal position (or wherever we stop) to an "!" to show that we've arrived.
         self.positions[self.pos] = '!'
         self.display()
+# Find the goal, given the map
 def findGoal(mapOfWorld):
     positions = mapOfWorld.positions
     for x in range(mapOfWorld.xdim):
         for y in range(mapOfWorld.ydim):
             if(mapOfWorld.positions[(x, y)] == 'G'):
-                
                 return (x, y)
+# Find the start, given the map
 def findStart(mapOfWorld):
     positions = mapOfWorld.positions
     for x in range(mapOfWorld.xdim):
